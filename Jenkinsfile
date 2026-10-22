@@ -12,6 +12,13 @@ properties([
 ])
 
 node {
+    stage('Checkout') {
+        // NODIG voor pollSCM: Jenkins pollt enkel repo's die in de vorige
+        // build via een checkout-stap zijn uitgecheckt. Een scripted pipeline
+        // doet dat niet automatisch (en "Lightweight checkout" haalt enkel
+        // de Jenkinsfile op, dat telt niet mee).
+        checkout scm
+    }
     stage('Preparation') {
         // catchError: als de container niet bestaat, faalt de build niet
         catchError(buildResult: 'SUCCESS') {
